@@ -1,0 +1,7 @@
+{
+  "name": "Fimoney",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
