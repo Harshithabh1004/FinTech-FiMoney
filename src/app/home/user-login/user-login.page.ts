@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { IonButton, IonInput, IonItem, IonList, IonText, IonFab, IonFabButton, IonIcon, IonListHeader, IonContent } from '@ionic/angular/standalone';
 
 @Component({
@@ -10,15 +10,25 @@ import { IonButton, IonInput, IonItem, IonList, IonText, IonFab, IonFabButton, I
   templateUrl: './user-login.page.html',
   styleUrls: ['./user-login.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonButton, IonInput, IonItem, IonList, IonText, IonFab, IonFabButton, IonIcon, IonListHeader, IonContent,RouterLink]
+  imports: [CommonModule, FormsModule, IonButton, IonInput, IonItem, IonList, IonText, IonFab, IonFabButton, IonIcon, IonListHeader, IonContent, RouterLink]
 })
 export class UserLoginPage {
   username: string = '';
   password: string = '';
-
+  
   constructor(private router: Router, private alertController: AlertController) {}
 
-  async onLogin() {
+  async onLogin(form: NgForm) {
+    if (!form.valid) {
+      const alert = await this.alertController.create({
+        header: 'Login Failed',
+        message: 'Please enter both Username and Password',
+        buttons: ['OK'],
+      });
+      await alert.present();
+      return; // Stop execution if form is invalid
+    }
+
     const trimmedUsername = this.username.trim();
     const trimmedPassword = this.password.trim();
 
